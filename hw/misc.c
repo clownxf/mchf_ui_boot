@@ -37,6 +37,20 @@ void misc_copy(uchar *out, uchar *in,ushort size)
 		*out++ = *in++;
 }
 
+void misc_init_lcd_backlight(void)
+{
+	GPIO_InitTypeDef  	GPIO_InitStruct;
+
+	GPIO_InitStruct.Pin 		= GPIO_PIN_9;
+	GPIO_InitStruct.Mode 		= GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull 		= GPIO_NOPULL;
+	GPIO_InitStruct.Speed 		= GPIO_SPEED_FREQ_VERY_HIGH;
+	gpio_init(GPIOF, &GPIO_InitStruct);
+
+	// LCD Backlight off (active high)
+	GPIOF->BSRRH = GPIO_PIN_9;
+}
+
 void misc_init_led(void)
 {
 	GPIO_InitTypeDef  	GPIO_InitStruct;

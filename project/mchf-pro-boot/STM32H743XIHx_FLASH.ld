@@ -168,6 +168,7 @@ SECTIONS
   }
 
   .ARM.attributes 0 : { *(.ARM.attributes) }
+  .GUI_NUMBYTES_section (NOLOAD): { *(.GUI_NUMBYTES_section) } >RAM_D1
 }
 
 

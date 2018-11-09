@@ -17,6 +17,172 @@
 
 #include "main.h"
 
+/**
+  * @brief  PLL2 Clock structure definition
+  */
+typedef struct
+{
+
+  uint32_t PLL2M;       /*!< PLL2M: Division factor for PLL2 VCO input clock.
+                             This parameter must be a number between Min_Data = 1 and Max_Data = 63    */
+
+  uint32_t PLL2N;       /*!< PLL2N: Multiplication factor for PLL2 VCO output clock.
+                             This parameter must be a number between Min_Data = 4 and Max_Data = 512   */
+
+  uint32_t PLL2P;       /*!< PLL2P: Division factor for system clock.
+                             This parameter must be a number between Min_Data = 2 and Max_Data = 128
+                             odd division factors are not allowed                                      */
+
+  uint32_t PLL2Q;        /*!< PLL2Q: Division factor for peripheral clocks.
+                             This parameter must be a number between Min_Data = 1 and Max_Data = 128   */
+
+  uint32_t PLL2R;        /*!< PLL2R: Division factor for peripheral clocks.
+                             This parameter must be a number between Min_Data = 1 and Max_Data = 128   */
+  uint32_t PLL2RGE;      /*!<PLL2RGE: PLL2 clock Input range
+                          This parameter must be a value of @ref RCC_PLL2_VCI_Range                    */
+  uint32_t PLL2VCOSEL;   /*!<PLL2VCOSEL: PLL2 clock Output range
+                          This parameter must be a value of @ref RCC_PLL2_VCO_Range                    */
+
+  uint32_t PLL2FRACN;    /*!<PLL2FRACN: Specifies Fractional Part Of The Multiplication Factor for
+                            PLL2 VCO It should be a value between 0 and 8191                           */
+}RCC_PLL2InitTypeDef;
+
+
+/**
+  * @brief  PLL3 Clock structure definition
+  */
+typedef struct
+{
+
+  uint32_t PLL3M;       /*!< PLL3M: Division factor for PLL3 VCO input clock.
+                             This parameter must be a number between Min_Data = 1 and Max_Data = 63    */
+
+  uint32_t PLL3N;       /*!< PLL3N: Multiplication factor for PLL3 VCO output clock.
+                             This parameter must be a number between Min_Data = 4 and Max_Data = 512   */
+
+  uint32_t PLL3P;       /*!< PLL3P: Division factor for system clock.
+                             This parameter must be a number between Min_Data = 2 and Max_Data = 128
+                             odd division factors are not allowed                                      */
+
+  uint32_t PLL3Q;        /*!< PLL3Q: Division factor for peripheral clocks.
+                             This parameter must be a number between Min_Data = 1 and Max_Data = 128   */
+
+  uint32_t PLL3R;        /*!< PLL3R: Division factor for peripheral clocks.
+                             This parameter must be a number between Min_Data = 1 and Max_Data = 128   */
+  uint32_t PLL3RGE;      /*!<PLL3RGE: PLL3 clock Input range
+                          This parameter must be a value of @ref RCC_PLL3_VCI_Range                    */
+  uint32_t PLL3VCOSEL;   /*!<PLL3VCOSEL: PLL3 clock Output range
+                          This parameter must be a value of @ref RCC_PLL3_VCO_Range                    */
+
+  uint32_t PLL3FRACN;    /*!<PLL3FRACN: Specifies Fractional Part Of The Multiplication Factor for
+                            PLL3 VCO It should be a value between 0 and 8191                           */
+}RCC_PLL3InitTypeDef;
+
+/**
+  * @brief  RCC extended clocks structure definition
+  */
+typedef struct
+{
+  uint32_t PeriphClockSelection;   /*!< The Extended Clock to be configured.
+                                        This parameter can be a value of @ref RCCEx_Periph_Clock_Selection */
+
+  RCC_PLL2InitTypeDef PLL2;        /*!< PLL2structure parameters.
+                                        This parameter will be used only when PLL2 is selected as kernel clock Source for some peripherals */
+
+  RCC_PLL3InitTypeDef PLL3;        /*!< PLL3 structure parameters.
+                                        This parameter will be used only when PLL2 is selected as kernel clock Source for some peripherals */
+
+  uint32_t FmcClockSelection;     /*!< Specifies FMC clock source
+                                        This parameter can be a value of @ref RCCEx_FMC_Clock_Source     */
+
+  uint32_t QspiClockSelection;    /*!< Specifies QSPI clock source
+                                        This parameter can be a value of @ref RCCEx_QSPI_Clock_Source    */
+
+  uint32_t SdmmcClockSelection;    /*!< Specifies SDMMC clock source
+                                        This parameter can be a value of @ref RCCEx_SDMMC_Clock_Source   */
+
+  uint32_t CkperClockSelection;   /*!< Specifies CKPER clock source
+                                        This parameter can be a value of @ref RCCEx_CLKP_Clock_Source   */
+
+  uint32_t Sai1ClockSelection;     /*!< Specifies SAI1 clock source
+                                        This parameter can be a value of @ref RCCEx_SAI1_Clock_Source    */
+
+  uint32_t Sai23ClockSelection;     /*!< Specifies SAI2/3 clock source
+                                         This parameter can be a value of @ref RCCEx_SAI23_Clock_Source    */
+
+  uint32_t Spi123ClockSelection;     /*!< Specifies SPI1/2/3 clock source
+                                          This parameter can be a value of @ref RCCEx_SPI123_Clock_Source    */
+
+  uint32_t Spi45ClockSelection;     /*!< Specifies SPI4/5 clock source
+                                         This parameter can be a value of @ref RCCEx_SPI45_Clock_Source    */
+
+  uint32_t SpdifrxClockSelection;   /*!< Specifies SPDIFRX Clock clock source
+                                        This parameter can be a value of @ref RCCEx_SPDIFRX_Clock_Source */
+
+  uint32_t Dfsdm1ClockSelection;    /*!< Specifies DFSDM1 Clock clock source
+                                        This parameter can be a value of @ref RCCEx_DFSDM1_Clock_Source  */
+#if defined(FDCAN1) || defined(FDCAN2)
+  uint32_t FdcanClockSelection;   /*!< Specifies FDCAN Clock clock source
+                                        This parameter can be a value of @ref RCCEx_FDCAN_Clock_Source   */
+#endif /*FDCAN1 || FDCAN2*/
+
+  uint32_t Swpmi1ClockSelection;   /*!< Specifies SWPMI1 Clock clock source
+                                        This parameter can be a value of @ref RCCEx_SWPMI1_Clock_Source  */
+
+  uint32_t Usart234578ClockSelection;   /*!< Specifies USART2/3/4/5/7/8 clock source
+                                             This parameter can be a value of @ref RCCEx_USART234578_Clock_Source  */
+
+  uint32_t Usart16ClockSelection;  /*!< Specifies USART1/6 clock source
+                                        This parameter can be a value of @ref RCCEx_USART16_Clock_Source  */
+
+  uint32_t RngClockSelection;      /*!< Specifies RNG clock source
+                                        This parameter can be a value of @ref RCCEx_RNG_Clock_Source     */
+
+  uint32_t I2c123ClockSelection;   /*!< Specifies I2C1/2/3 clock source
+                                        This parameter can be a value of @ref RCCEx_I2C123_Clock_Source    */
+
+  uint32_t UsbClockSelection;      /*!< Specifies USB clock source
+                                        This parameter can be a value of @ref RCCEx_USB_Clock_Source     */
+
+  uint32_t CecClockSelection;     /*!< Specifies CEC clock source
+                                        This parameter can be a value of @ref RCCEx_CEC_Clock_Source     */
+
+  uint32_t Lptim1ClockSelection;   /*!< Specifies LPTIM1 clock source
+                                        This parameter can be a value of @ref RCCEx_LPTIM1_Clock_Source  */
+
+  uint32_t Lpuart1ClockSelection;  /*!< Specifies LPUART1 clock source
+                                        This parameter can be a value of @ref RCCEx_LPUART1_Clock_Source */
+
+  uint32_t I2c4ClockSelection;     /*!< Specifies I2C4 clock source
+                                        This parameter can be a value of @ref RCCEx_I2C4_Clock_Source    */
+
+  uint32_t Lptim2ClockSelection;   /*!< Specifies LPTIM2 clock source
+                                        This parameter can be a value of @ref RCCEx_LPTIM2_Clock_Source  */
+
+  uint32_t Lptim345ClockSelection;   /*!< Specifies LPTIM3/4/5 clock source
+                                          This parameter can be a value of @ref RCCEx_LPTIM345_Clock_Source  */
+
+  uint32_t AdcClockSelection;      /*!< Specifies ADC interface clock source
+                                        This parameter can be a value of @ref RCCEx_ADC_Clock_Source     */
+
+  uint32_t Sai4AClockSelection;     /*!< Specifies SAI4A clock source
+                                        This parameter can be a value of @ref RCCEx_SAI4A_Clock_Source   */
+
+  uint32_t Sai4BClockSelection;     /*!< Specifies SAI4B clock source
+                                        This parameter can be a value of @ref RCCEx_SAI4B_Clock_Source   */
+
+  uint32_t Spi6ClockSelection;     /*!< Specifies SPI6 clock source
+                                        This parameter can be a value of @ref RCCEx_SPI6_Clock_Source    */
+
+  uint32_t RTCClockSelection;      /*!< Specifies RTC Clock clock source
+                                        This parameter can be a value of @ref RCC_RTC_Clock_Source       */
+
+  uint32_t Hrtim1ClockSelection;   /*!< Specifies HRTIM1 Clock clock source
+                                        This parameter can be a value of @ref RCCEx_HRTIM1_Clock_Source   */
+  uint32_t TIMPresSelection;       /*!< Specifies TIM Clock Prescalers Selection.
+                                       This parameter can be a value of @ref RCCEx_TIM_Prescaler_Selection */
+}RCC_PeriphCLKInitTypeDef;
+
 typedef struct
 {
  __IO uint32_t CR;             /*!< RCC clock control register,                                              Address offset: 0x00  */
@@ -211,6 +377,18 @@ typedef struct
 #define RCC_AHB4ENR_GPIOBEN_Msk                (0x1U << RCC_AHB4ENR_GPIOBEN_Pos) /*!< 0x00000002 */
 #define RCC_AHB4ENR_GPIOBEN                    RCC_AHB4ENR_GPIOBEN_Msk
 
+#define RCC_AHB4ENR_GPIOFEN_Pos                (5U)
+#define RCC_AHB4ENR_GPIOFEN_Msk                (0x1U << RCC_AHB4ENR_GPIOFEN_Pos) /*!< 0x00000020 */
+#define RCC_AHB4ENR_GPIOFEN                    RCC_AHB4ENR_GPIOFEN_Msk
+
+#define RCC_AHB4ENR_CRCEN_Pos                  (19U)
+#define RCC_AHB4ENR_CRCEN_Msk                  (0x1U << RCC_AHB4ENR_CRCEN_Pos) /*!< 0x00080000 */
+#define RCC_AHB4ENR_CRCEN                      RCC_AHB4ENR_CRCEN_Msk
+
+#define RCC_AHB2ENR_D2SRAM1EN_Pos              (29U)
+#define RCC_AHB2ENR_D2SRAM1EN_Msk              (0x1U << RCC_AHB2ENR_D2SRAM1EN_Pos) /*!< 0x20000000 */
+#define RCC_AHB2ENR_D2SRAM1EN                  RCC_AHB2ENR_D2SRAM1EN_Msk
+
 #define PERIPH_BASE               ((uint32_t)0x40000000)
 #define D3_AHB1PERIPH_BASE       (PERIPH_BASE + 0x18020000)
 
@@ -225,6 +403,18 @@ typedef struct
 
 #define GPIOD_BASE            (D3_AHB1PERIPH_BASE + 0x0C00)
 #define GPIOD               ((GPIO_TypeDef *) GPIOD_BASE)
+
+#define GPIOI_BASE            (D3_AHB1PERIPH_BASE + 0x2000)
+#define GPIOI               ((GPIO_TypeDef *) GPIOI_BASE)
+
+#define GPIOE_BASE            (D3_AHB1PERIPH_BASE + 0x1000)
+#define GPIOE               ((GPIO_TypeDef *) GPIOE_BASE)
+
+#define GPIOF_BASE            (D3_AHB1PERIPH_BASE + 0x1400)
+#define GPIOF               ((GPIO_TypeDef *) GPIOF_BASE)
+
+#define GPIOG_BASE            (D3_AHB1PERIPH_BASE + 0x1800)
+#define GPIOG               ((GPIO_TypeDef *) GPIOG_BASE)
 
 #define GPIOI_BASE            (D3_AHB1PERIPH_BASE + 0x2000)
 #define GPIOI               ((GPIO_TypeDef *) GPIOI_BASE)
@@ -245,6 +435,23 @@ typedef struct
 #define SysTick_BASE        (SCS_BASE +  0x0010UL)                    /*!< SysTick Base Address */
 #define NVIC_BASE           (SCS_BASE +  0x0100UL)                    /*!< NVIC Base Address */
 #define SCB_BASE            (SCS_BASE +  0x0D00UL)                    /*!< System Control Block Base Address */
+
+typedef struct
+{
+  __IOM uint32_t ISER[8U];               /*!< Offset: 0x000 (R/W)  Interrupt Set Enable Register */
+        uint32_t RESERVED0[24U];
+  __IOM uint32_t ICER[8U];               /*!< Offset: 0x080 (R/W)  Interrupt Clear Enable Register */
+        uint32_t RSERVED1[24U];
+  __IOM uint32_t ISPR[8U];               /*!< Offset: 0x100 (R/W)  Interrupt Set Pending Register */
+        uint32_t RESERVED2[24U];
+  __IOM uint32_t ICPR[8U];               /*!< Offset: 0x180 (R/W)  Interrupt Clear Pending Register */
+        uint32_t RESERVED3[24U];
+  __IOM uint32_t IABR[8U];               /*!< Offset: 0x200 (R/W)  Interrupt Active bit Register */
+        uint32_t RESERVED4[56U];
+  __IOM uint8_t  IP[240U];               /*!< Offset: 0x300 (R/W)  Interrupt Priority Register (8Bit wide) */
+        uint32_t RESERVED5[644U];
+  __OM  uint32_t STIR;                   /*!< Offset: 0xE00 ( /W)  Software Trigger Interrupt Register */
+}  NVIC_Type;
 
 #define SCnSCB              ((SCnSCB_Type    *)     SCS_BASE      )   /*!< System control Register not in SCB */
 #define SCB                 ((SCB_Type       *)     SCB_BASE      )   /*!< SCB configuration struct */
@@ -271,7 +478,42 @@ typedef struct
 #define RCC_AHB4ENR_GPIODEN_Msk                (0x1U << RCC_AHB4ENR_GPIODEN_Pos) /*!< 0x00000008 */
 #define RCC_AHB4ENR_GPIODEN                    RCC_AHB4ENR_GPIODEN_Msk
 
+#define RCC_AHB4ENR_GPIOEEN_Pos                (4U)
+#define RCC_AHB4ENR_GPIOEEN_Msk                (0x1U << RCC_AHB4ENR_GPIOEEN_Pos) /*!< 0x00000010 */
+#define RCC_AHB4ENR_GPIOEEN                    RCC_AHB4ENR_GPIOEEN_Msk
 
+#define RCC_AHB4ENR_GPIOGEN_Pos                (6U)
+#define RCC_AHB4ENR_GPIOGEN_Msk                (0x1U << RCC_AHB4ENR_GPIOGEN_Pos) /*!< 0x00000040 */
+#define RCC_AHB4ENR_GPIOGEN                    RCC_AHB4ENR_GPIOGEN_Msk
+
+#define GPIO_PIN_0                 ((uint16_t)0x0001U)  /* Pin 0 selected    */
+#define GPIO_PIN_1                 ((uint16_t)0x0002U)  /* Pin 1 selected    */
+#define GPIO_PIN_2                 ((uint16_t)0x0004U)  /* Pin 2 selected    */
+#define GPIO_PIN_3                 ((uint16_t)0x0008U)  /* Pin 3 selected    */
+#define GPIO_PIN_4                 ((uint16_t)0x0010U)  /* Pin 4 selected    */
+#define GPIO_PIN_5                 ((uint16_t)0x0020U)  /* Pin 5 selected    */
+#define GPIO_PIN_6                 ((uint16_t)0x0040U)  /* Pin 6 selected    */
+#define GPIO_PIN_7                 ((uint16_t)0x0080U)  /* Pin 7 selected    */
+#define GPIO_PIN_8                 ((uint16_t)0x0100U)  /* Pin 8 selected    */
+#define GPIO_PIN_9                 ((uint16_t)0x0200U)  /* Pin 9 selected    */
+#define GPIO_PIN_10                ((uint16_t)0x0400U)  /* Pin 10 selected   */
+#define GPIO_PIN_11                ((uint16_t)0x0800U)  /* Pin 11 selected   */
+#define GPIO_PIN_12                ((uint16_t)0x1000U)  /* Pin 12 selected   */
+#define GPIO_PIN_13                ((uint16_t)0x2000U)  /* Pin 13 selected   */
+#define GPIO_PIN_14                ((uint16_t)0x4000U)  /* Pin 14 selected   */
+#define GPIO_PIN_15                ((uint16_t)0x8000U)  /* Pin 15 selected   */
+#define GPIO_PIN_All               ((uint16_t)0xFFFFU)  /* All pins selected */
+
+#define GPIO_PIN_MASK              ((uint32_t)0x0000FFFFU) /* PIN mask for assert test */
+
+#define  GPIO_NOPULL        ((uint32_t)0x00000000U)   /*!< No Pull-up or Pull-down activation  */
+#define  GPIO_PULLUP        ((uint32_t)0x00000001U)   /*!< Pull-up activation                  */
+#define  GPIO_PULLDOWN      ((uint32_t)0x00000002U)   /*!< Pull-down activation                */
+
+#define  GPIO_SPEED_FREQ_LOW         ((uint32_t)0x00000000U)  /*!< Low speed     */
+#define  GPIO_SPEED_FREQ_MEDIUM      ((uint32_t)0x00000001U)  /*!< Medium speed  */
+#define  GPIO_SPEED_FREQ_HIGH        ((uint32_t)0x00000002U)  /*!< Fast speed    */
+#define  GPIO_SPEED_FREQ_VERY_HIGH   ((uint32_t)0x00000003U)  /*!< High speed    */
 
 //#define SCB                 ((SCB_Type       *)     SCB_BASE      )
 
@@ -296,6 +538,16 @@ __STATIC_INLINE void NVIC_SystemReset(void)
   __DSB();                                                          /* Ensure completion of memory access */
 }
 
+#define RCC_APB3ENR_LTDCEN_Pos                 (3U)
+#define RCC_APB3ENR_LTDCEN_Msk                 (0x1U << RCC_APB3ENR_LTDCEN_Pos) /*!< 0x00000008 */
+#define RCC_APB3ENR_LTDCEN                     RCC_APB3ENR_LTDCEN_Msk
+
+#define RCC_AHB3ENR_DMA2DEN_Pos                (4U)
+#define RCC_AHB3ENR_DMA2DEN_Msk                (0x1U << RCC_AHB3ENR_DMA2DEN_Pos) /*!< 0x00000010 */
+#define RCC_AHB3ENR_DMA2DEN                    RCC_AHB3ENR_DMA2DEN_Msk
+
+// ----------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------
 
 void gpio_init(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init);
 unsigned long gpio_clocks_on(void);

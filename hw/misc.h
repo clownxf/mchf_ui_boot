@@ -29,6 +29,7 @@ void misc_clear_buffer(uchar *data, ushort size);
 void misc_copy(uchar *out, uchar *in,ushort size);
 
 void misc_init_led(void);
+void misc_init_lcd_backlight(void);
 void misc_blink_led(void);
 void misc_jump_to_firmware(void);
 void misc_cpu_dependent_delay(unsigned long delay);

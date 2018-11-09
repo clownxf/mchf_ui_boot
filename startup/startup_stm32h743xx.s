@@ -50,19 +50,19 @@ LoopFillZerobss:
   bcc  FillZerobss
 
 	/* Call the clock system intitialization function.*/
-  	//-------bl  SystemInit
+  	bl  SystemInit
 
 	/* Call static constructors */
     //-------bl __libc_init_array
 
+	// jump to application
+  	//ldr		r0,=0x08020000
+ 	//ldr		r0,[r0,#4]
+  	//bx		r0
+
 	// Call the application's entry point
   	bl  main
   	bx  lr
-
-  // jump to application
-  //ldr		r0,=0x08020000
-  //ldr		r0,[r0,#4]
-  //bx		r0
 
 .size  Reset_Handler, .-Reset_Handler
 

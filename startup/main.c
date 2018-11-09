@@ -20,6 +20,9 @@
 #include "flash.h"
 #include "misc.h"
 
+// LCD
+#include "GUI.h"
+
 char 			dev_string[] = DEVICE_STRING;
 unsigned char 	fat_buff[600];
 
@@ -164,29 +167,70 @@ next_cmd:
 	goto next_cmd;
 }
 
-int main(void)
+static void hw_init(void)
 {
 	// GPIO clocks
 	gpio_clocks_on();
 
+	// Init LCD backlight control pin
+	misc_init_lcd_backlight();
+
 	// Prevent keypad LEDs going mad
 	keypad_led_driver_init();
 
-	// LED pin init
+	// LED pin init - ??
 	misc_init_led();
 
 	// SPI pins init
 	spi_gpio_init();
+}
+
+int main(void)
+{
+	char boot_mode;
+
+	// Set hardware
+	hw_init();
+
+	// LCD Backlight on (active high)
+	GPIOF->BSRRL = GPIO_PIN_9;
 
 	// Bootloader mode or normal firmware execution
-	if(misc_check_if_need_to_enter_bootloader_mode())
+	boot_mode = misc_check_if_need_to_enter_bootloader_mode();
+
+	// LCD Backlight off (active high)
+	GPIOF->BSRRH = GPIO_PIN_9;
+
+	// Init GUI lib
+	GUI_Init();
+
+	GUI_SelectLayer(0);
+	GUI_SetBkColor(GUI_BLACK);
+	GUI_Clear();
+	//GUI_ClearRect(0,0,800,480);
+
+	GUI_SetFont(&GUI_Font32B_ASCII);
+	GUI_SetColor(GUI_GREEN);
+
+	// Test
+	GUI_DispStringAt("-- adfasdfasdfasdfasdfasdfaaasdfsdgagva84757134857138 --", 10,10);
+	GUI_DispStringAt("line 2", 10,40);
+	GUI_DispStringAt("---------------------- last ----------------------------", 10,440);
+
+	// Route execution context
+	if(boot_mode)
 	{
 		// Pass execution to handler
 		// never return
 		cmd_handler();
 	}
+	else
+	{
+		// Jump to main firmware
+		misc_jump_to_firmware();
+	}
 
-	// Jump to main firmware
-	misc_jump_to_firmware();
+	// Never here
+	while(1);
 }
 

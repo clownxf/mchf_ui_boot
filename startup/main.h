@@ -20,7 +20,11 @@
 #define APPL_MAJOR				0
 #define APPL_MINOR				0
 #define APPL_RELEASE			0
-#define APPL_BUILD				20
+#define APPL_BUILD				45
+
+#define PCB_REV_26JULY18
+
+#define EMWIN_MEMORY			12
 
 #ifndef uchar
 typedef	unsigned char	uchar;
@@ -49,6 +53,8 @@ typedef	int				bool;
 #ifndef false
 #define false			0
 #endif
+
+#define NULL ((void *)0)
 
 #define     __IO    	volatile
 
@@ -125,6 +131,15 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
 #define READ_REG(REG)         ((REG))
 #define MODIFY_REG(REG, CLEARMASK, SETMASK)  WRITE_REG((REG), (((READ_REG(REG)) & (~(CLEARMASK))) | (SETMASK)))
 #define POSITION_VAL(VAL)     (__CLZ(__RBIT(VAL)))
+
+/**
+  * @brief  HAL Lock structures definition
+  */
+typedef enum
+{
+  HAL_UNLOCKED = 0x00,
+  HAL_LOCKED   = 0x01
+} HAL_LockTypeDef;
 
 /**
   \brief   Data Synchronization Barrier

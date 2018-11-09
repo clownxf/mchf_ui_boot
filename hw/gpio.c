@@ -105,10 +105,47 @@ unsigned long gpio_clocks_on(void)
 	__asm(".hword 0x46C0");
 	readback = RCC->AHB4ENR & RCC_AHB4ENR_GPIOCEN;
 
+	// PORTE clock on
+	RCC->AHB4ENR |= RCC_AHB4ENR_GPIOEEN;
+	__asm(".hword 0x46C0");
+	readback = RCC->AHB4ENR & RCC_AHB4ENR_GPIOEEN;
+
+	// PORTF clock on
+	RCC->AHB4ENR |= RCC_AHB4ENR_GPIOFEN;
+	__asm(".hword 0x46C0");
+	readback = RCC->AHB4ENR & RCC_AHB4ENR_GPIOFEN;
+
+	// PORTG clock on
+	RCC->AHB4ENR |= RCC_AHB4ENR_GPIOGEN;
+	__asm(".hword 0x46C0");
+	readback = RCC->AHB4ENR & RCC_AHB4ENR_GPIOGEN;
+
 	// PORTI clock on
 	RCC->AHB4ENR |= RCC_AHB4ENR_GPIOIEN;
 	__asm(".hword 0x46C0");
 	readback = RCC->AHB4ENR & RCC_AHB4ENR_GPIOIEN;
+
+	// CRC clock (for LCD lib unlock)
+	RCC->AHB4ENR |= RCC_AHB4ENR_CRCEN;
+	__asm(".hword 0x46C0");
+	readback = RCC->AHB4ENR & RCC_AHB4ENR_CRCEN;
+
+	// SRAM1 clock on
+	RCC->AHB2ENR |= RCC_AHB2ENR_D2SRAM1EN;
+	__asm(".hword 0x46C0");
+	readback = RCC->AHB2ENR & RCC_AHB2ENR_D2SRAM1EN;
+
+	// LTDC clock on
+	RCC->APB3ENR |= RCC_APB3ENR_LTDCEN;
+	__asm(".hword 0x46C0");
+	readback = RCC->APB3ENR & RCC_APB3ENR_LTDCEN;
+
+	// DMA2D clock on
+	RCC->APB3ENR |= RCC_AHB3ENR_DMA2DEN;
+	__asm(".hword 0x46C0");
+	readback = RCC->APB3ENR & RCC_AHB3ENR_DMA2DEN;
+
+	//SET_BIT(RCC->AHB3ENR, RCC_AHB3ENR_DMA2DEN);\
 
 	return readback;
 }
