@@ -24,6 +24,10 @@
 #include "GUI.h"
 
 char 			dev_string[] = DEVICE_STRING;
+char			boot_string[] = "UI PCB in bootloader mode";
+
+ulong			line_id = 0;
+
 unsigned char 	fat_buff[600];
 
 const unsigned char erase_pass[10] = {
@@ -185,6 +189,65 @@ static void hw_init(void)
 	spi_gpio_init();
 }
 
+static void lcd_print(char *text)
+{
+	GUI_DispStringAt(text,0,line_id);
+	line_id += 20;
+}
+
+static void lcd_init(void)
+{
+	char text[200];
+	long i,k;
+
+	// Init GUI lib
+	GUI_Init();
+
+	// Clear screen
+	GUI_SelectLayer(0);
+	GUI_SetBkColor(GUI_BLACK);
+	GUI_Clear();
+	//GUI_ClearRect(0,0,800,480);
+
+	// Sent font and foreground colour
+	GUI_SetFont(&GUI_Font24B_ASCII);
+	GUI_SetColor(GUI_GREEN);
+
+	// Clear buffer
+	for(i = 0; i < sizeof(text);i++)
+		text[i] = 0;
+
+	// Add bootloader ID text
+	for(i = 0,k = 0; i < sizeof(boot_string);i++)
+		text[i] = boot_string[i];
+
+	text[i - 1] = '-';
+	k = i;
+
+	// Add device ID string
+	for(i = 0; i < sizeof(dev_string);i++)
+		text[i + k] = dev_string[i];
+
+	k = (i + k - 1);
+
+	text[k++] = ' ';
+	text[k++] = 'v';
+	text[k++] = 'e';
+	text[k++] = 'r';
+	text[k++] = ' ';
+
+	// Build version, ToDo: fix this conversion!
+	text[k++] = 0x30 + APPL_MAJOR;
+	text[k++] = '.';
+	text[k++] = 0x30 + APPL_MINOR;
+	text[k++] = '.';
+	text[k++] = 0x30 + APPL_RELEASE;
+	text[k++] = '.';
+	text[k++] = 0x30 + APPL_BUILD;
+
+	lcd_print(text);
+}
+
 int main(void)
 {
 	char boot_mode;
@@ -201,25 +264,16 @@ int main(void)
 	// LCD Backlight off (active high)
 	GPIOF->BSRRH = GPIO_PIN_9;
 
-	// Init GUI lib
-	GUI_Init();
-
-	GUI_SelectLayer(0);
-	GUI_SetBkColor(GUI_BLACK);
-	GUI_Clear();
-	//GUI_ClearRect(0,0,800,480);
-
-	GUI_SetFont(&GUI_Font32B_ASCII);
-	GUI_SetColor(GUI_GREEN);
-
-	// Test
-	GUI_DispStringAt("-- adfasdfasdfasdfasdfasdfaaasdfsdgagva84757134857138 --", 10,10);
-	GUI_DispStringAt("line 2", 10,40);
-	GUI_DispStringAt("---------------------- last ----------------------------", 10,440);
-
 	// Route execution context
 	if(boot_mode)
 	{
+		// Init LCD print
+		lcd_init();
+
+		// Test
+		lcd_print("Testing Hardware...Done.");
+		lcd_print("Entering bootmode handler...");
+
 		// Pass execution to handler
 		// never return
 		cmd_handler();
