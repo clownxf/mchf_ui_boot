@@ -12,8 +12,8 @@
 <targetDefinitions>
   <board id="stm32h743i-eval">
     <name>STM32H743I-EVAL</name>
-    <dbgIF>JTAG</dbgIF>
     <dbgIF>SWD</dbgIF>
+    <dbgIF>JTAG</dbgIF>
     <dbgDEV>ST-Link</dbgDEV>
     <mcuId>stm32h743xihx</mcuId>
   </board>

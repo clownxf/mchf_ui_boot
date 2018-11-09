@@ -20,7 +20,7 @@
 #define APPL_MAJOR				0
 #define APPL_MINOR				0
 #define APPL_RELEASE			0
-#define APPL_BUILD				45
+#define APPL_BUILD				46
 
 #define PCB_REV_26JULY18
 
