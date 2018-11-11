@@ -22,30 +22,30 @@ static FLASH_EraseInitTypeDef EraseInitStruct;
 
 uchar flash_unlock(void)
 {
+#ifndef DISSABLE_FLASH_SUPPORT
   if((READ_BIT(FLASH->CR1, FLASH_CR_LOCK) != RESET) && (READ_BIT(FLASH->CR2, FLASH_CR_LOCK) != RESET))
   {
     // Authorise the FLASH A Registers access
     WRITE_REG(FLASH->KEYR1, FLASH_KEY1);
     WRITE_REG(FLASH->KEYR1, FLASH_KEY2);
-
     // Authorise the FLASH B Registers access
     WRITE_REG(FLASH->KEYR2, FLASH_KEY1);
     WRITE_REG(FLASH->KEYR2, FLASH_KEY2);
   }
   else
     return 1;
-
+#endif
   return 0;
 }
 
 uchar flash_lock(void)
 {
+#ifndef DISSABLE_FLASH_SUPPORT
   // Set the LOCK Bit to lock the FLASH A Registers access
   SET_BIT(FLASH->CR1, FLASH_CR_LOCK);
-
   // Set the LOCK Bit to lock the FLASH B Registers access
   SET_BIT(FLASH->CR2, FLASH_CR_LOCK);
-
+#endif
   return 0;
 }
 
@@ -55,7 +55,7 @@ uchar flash_lock(void)
 uchar flash_wait_last_operation(uint32_t Timeout, uint32_t Bank)
 {
   uint32_t bsyflag, errorflag = 0;
-
+#ifndef DISSABLE_FLASH_SUPPORT
   if(Bank == FLASH_BANK_1)
   {
     bsyflag = FLASH_FLAG_BSY_BANK1 | FLASH_FLAG_QW_BANK1;
@@ -111,13 +111,14 @@ uchar flash_wait_last_operation(uint32_t Timeout, uint32_t Bank)
 
     return 1;
   }
-
+#endif
   // If there is an error flag set
   return 0;
 }
 
 void flash_erase_sector(uint32_t Sector, uint32_t Banks, uint32_t VoltageRange)
 {
+#ifndef DISSABLE_FLASH_SUPPORT
   if((Banks & FLASH_BANK_1) == FLASH_BANK_1)
   {
     // reset Program/erase VoltageRange for Bank1
@@ -127,7 +128,7 @@ void flash_erase_sector(uint32_t Sector, uint32_t Banks, uint32_t VoltageRange)
 
     FLASH->CR1 |= FLASH_CR_START;
   }
-
+  //
   if((Banks & FLASH_BANK_2) == FLASH_BANK_2)
   {
     // reset Program/erase VoltageRange for Bank2
@@ -137,6 +138,7 @@ void flash_erase_sector(uint32_t Sector, uint32_t Banks, uint32_t VoltageRange)
 
     FLASH->CR2 |= FLASH_CR_START;
   }
+#endif
 }
 
 //uchar flag = 0;
@@ -144,7 +146,7 @@ uchar flash_erase(FLASH_EraseInitTypeDef *pEraseInit, uint32_t *SectorError)
 {
   uchar 	status = 0;
   uint32_t 	index = 0;
-
+#ifndef DISSABLE_FLASH_SUPPORT
   // Wait for last operation to be completed
   if((pEraseInit->Banks & FLASH_BANK_1) == FLASH_BANK_1)
   {
@@ -195,7 +197,7 @@ uchar flash_erase(FLASH_EraseInitTypeDef *pEraseInit, uint32_t *SectorError)
         flag = !flag;
 #endif
   }
-
+#endif
   return status;
 }
 
@@ -208,7 +210,7 @@ uchar flash_program(uint32_t TypeProgram, uint32_t FlashAddress, uint64_t DataAd
       uint32_t bank;
       uint8_t row_index = 4;
 
-
+#ifndef DISSABLE_FLASH_SUPPORT
       if(IS_FLASH_PROGRAM_ADDRESS_BANK1(FlashAddress))
       {
         bank = FLASH_BANK_1;
@@ -279,7 +281,7 @@ uchar flash_program(uint32_t TypeProgram, uint32_t FlashAddress, uint64_t DataAd
 
       /* Process Unlocked */
       //__HAL_UNLOCK(&pFlash);
-
+#endif
       return status;
 }
 

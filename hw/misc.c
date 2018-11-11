@@ -166,6 +166,9 @@ void misc_cpu_dependent_delay(unsigned long delay)
 
 char misc_check_if_need_to_enter_bootloader_mode(void)
 {
+	ulong 	i,j;
+	uchar	buff[10];
+
 	// Wait for the DSP to boot up,
 	// much slower than the UI CPU. This delay
 	// would probably need to be fine tuned
@@ -178,6 +181,19 @@ char misc_check_if_need_to_enter_bootloader_mode(void)
 	{
 		// Wait for DSP bootloader to enter loop (maybe timeout here ?)
 		while(spi_get_irq_state());
+
+		for(i = 0,j = 0; i < 5; i++)
+		{
+			if(!spi_receive_block(buff,2))
+				break;
+
+			if((buff[0] == 0x12) && (buff[1] == 0x77))
+				j++;
+		}
+
+		// Yeah, no go ;(
+		if(j < 3)
+			return 0;
 
 		// Yes, bootloader mode requested
 		return 1;

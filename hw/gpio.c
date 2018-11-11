@@ -145,7 +145,5 @@ unsigned long gpio_clocks_on(void)
 	__asm(".hword 0x46C0");
 	readback = RCC->APB3ENR & RCC_AHB3ENR_DMA2DEN;
 
-	//SET_BIT(RCC->AHB3ENR, RCC_AHB3ENR_DMA2DEN);\
-
 	return readback;
 }

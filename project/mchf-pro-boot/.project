@@ -111,6 +111,11 @@
 			<locationURI>copy_PARENT/startup/main.h</locationURI>
 		</link>
 		<link>
+			<name>startup/printf.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/startup/printf.c</locationURI>
+		</link>
+		<link>
 			<name>startup/startup_stm32h743xx.s</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/startup/startup_stm32h743xx.s</locationURI>

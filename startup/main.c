@@ -13,6 +13,7 @@
 ************************************************************************************/
 
 #include "main.h"
+#include <stdio.h>
 
 // hardware
 #include "gpio.h"
@@ -192,13 +193,13 @@ static void hw_init(void)
 static void lcd_print(char *text)
 {
 	GUI_DispStringAt(text,0,line_id);
-	line_id += 20;
+	line_id += 24;
 }
 
 static void lcd_init(void)
 {
-	char text[200];
-	long i,k;
+	char 	text[200];
+	ulong 	i;
 
 	// Init GUI lib
 	GUI_Init();
@@ -217,34 +218,8 @@ static void lcd_init(void)
 	for(i = 0; i < sizeof(text);i++)
 		text[i] = 0;
 
-	// Add bootloader ID text
-	for(i = 0,k = 0; i < sizeof(boot_string);i++)
-		text[i] = boot_string[i];
-
-	text[i - 1] = '-';
-	k = i;
-
-	// Add device ID string
-	for(i = 0; i < sizeof(dev_string);i++)
-		text[i + k] = dev_string[i];
-
-	k = (i + k - 1);
-
-	text[k++] = ' ';
-	text[k++] = 'v';
-	text[k++] = 'e';
-	text[k++] = 'r';
-	text[k++] = ' ';
-
-	// Build version, ToDo: fix this conversion!
-	text[k++] = 0x30 + APPL_MAJOR;
-	text[k++] = '.';
-	text[k++] = 0x30 + APPL_MINOR;
-	text[k++] = '.';
-	text[k++] = 0x30 + APPL_RELEASE;
-	text[k++] = '.';
-	text[k++] = 0x30 + APPL_BUILD;
-
+	// Print details
+	sprintf(text,"%s - %s, ver %d.%d.%d.%d",boot_string,dev_string,APPL_MAJOR,APPL_MINOR,APPL_RELEASE,APPL_BUILD);
 	lcd_print(text);
 }
 
@@ -280,8 +255,14 @@ int main(void)
 	}
 	else
 	{
+		// -- Method one
 		// Jump to main firmware
 		misc_jump_to_firmware();
+
+		// -- Method two
+		// Too much shit running already
+		// so rather restart
+		//NVIC_SystemReset();
 	}
 
 	// Never here

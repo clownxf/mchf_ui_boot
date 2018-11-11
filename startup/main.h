@@ -20,9 +20,12 @@
 #define APPL_MAJOR				0
 #define APPL_MINOR				0
 #define APPL_RELEASE			0
-#define APPL_BUILD				46
+#define APPL_BUILD				52
 
 #define PCB_REV_26JULY18
+
+// Un-comment to dissable all flashing routines
+//--#define DISSABLE_FLASH_SUPPORT
 
 #define EMWIN_MEMORY			12
 
