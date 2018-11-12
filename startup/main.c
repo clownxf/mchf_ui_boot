@@ -11,8 +11,8 @@
 **  Last Modified:                                                                 **
 **  Licence:																	   **
 **          The mcHF project is released for radio amateurs experimentation,       **
-**          non-commercial use only! All source files under GPL-3.0, unless    	   **
-**          third party drivers specifies otherwise. Thank you!         	   	   **
+**          non-commercial use only! All source files under GPL-3.0, unless        **
+**          third party drivers specifies otherwise. Thank you!                    **
 **  																			   **
 ************************************************************************************/
 
