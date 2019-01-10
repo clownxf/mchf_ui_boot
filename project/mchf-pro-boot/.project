@@ -26,6 +26,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>README.md</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/README.md</locationURI>
+		</link>
+		<link>
 			<name>hw/flash.c</name>
 			<type>1</type>
 			<locationURI>copy_PARENT/hw/flash.c</locationURI>
