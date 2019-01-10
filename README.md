@@ -20,4 +20,4 @@ All mcHF downloads here: http://www.m0nka.co.uk/?page_id=5269
 
 --------------------------------------------------------------
 Krassi Atanassov, M0NKA
-mcHF project, 2013 - 2019
+mcHF project, 2012 - 2019
