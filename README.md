@@ -5,6 +5,13 @@
 Note: This code is still somehow experimental. For older mcHF board revisions, please use the better supported 
 fork of the code here: https://github.com/df8oe/UHSDR
 
+---------------------------------------------------------------------------------------------------------------
+
+This bootloader has rudimentary LCD support. Some HW testing(absolutely needed!) on each boot up is to be
+implemented. As it is can pass control to main firmware or be controlled by the DSP bootloader and reflash
+the main image.
+
+---------------------------------------------------------------------------------------------------------------
 How to compile:
 
 - Download SW4STM32 studio (http://www.openstm32.org) and install
